@@ -5,11 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check for saved dark mode preference
   function initializeDarkMode() {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      document.body.classList.add("dark-mode");
-      themeIcon.textContent = "☀️";
-    } else {
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        themeIcon.textContent = "☀️";
+      } else {
+        themeIcon.textContent = "🌙";
+      }
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
       themeIcon.textContent = "🌙";
     }
   }
@@ -23,7 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     themeIcon.textContent = isDarkMode ? "☀️" : "🌙";
     
     // Save preference
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    try {
+      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    } catch (error) {
+      console.error("Error saving theme preference:", error);
+    }
   }
 
   // Add event listener
